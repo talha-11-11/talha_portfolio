@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Talha Sarfraz — Full-Stack AI Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #0A0F1C;
+  --bg-card: #111827;
+  --bg-card-hover: #1a2236;
+  --bg-case: #0d1425;
+  --accent: #3B82F6;
+  --accent-glow: rgba(59, 130, 246, 0.15);
+  --accent-soft: #60A5FA;
+  --green: #10B981;
+  --green-glow: rgba(16, 185, 129, 0.15);
+  --orange: #F59E0B;
+  --orange-glow: rgba(245, 158, 11, 0.15);
+  --purple: #8B5CF6;
+  --purple-glow: rgba(139, 92, 246, 0.15);
+  --red: #EF4444;
+  --red-glow: rgba(239, 68, 68, 0.15);
+  --cyan: #06B6D4;
+  --cyan-glow: rgba(6, 182, 212, 0.15);
+  --white: #F9FAFB;
+  --gray: #9CA3AF;
+  --gray-dim: #6B7280;
+  --border: #1F2937;
+  --font: 'Inter', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--bg); color: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent-soft); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--accent); }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10,15,28,0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+nav .container { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+nav .logo { font-weight: 700; font-size: 18px; letter-spacing: -0.5px; color: var(--white); }
+nav .logo span { color: var(--accent); }
+nav ul { list-style: none; display: flex; gap: 28px; }
+nav ul li a { color: var(--gray); font-size: 14px; font-weight: 500; }
+nav ul li a:hover { color: var(--white); }
+@media(max-width:640px){ nav ul{gap:14px;} nav ul li a{font-size:12px;} }
+
+/* HERO */
+.hero { min-height: 100vh; display: flex; align-items: center; padding-top: 64px; position: relative; overflow: hidden; }
+.hero::before { content:''; position: absolute; top:-200px; right:-200px; width:600px; height:600px; background: radial-gradient(circle,var(--accent-glow),transparent 70%); pointer-events:none; }
+.hero-content { position: relative; z-index: 1; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: var(--accent-glow); border: 1px solid rgba(59,130,246,0.3); border-radius: 100px; font-size: 13px; font-weight: 500; color: var(--accent-soft); margin-bottom: 24px; }
+.hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+.hero h1 { font-size: clamp(40px,6vw,72px); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 20px; }
+.hero h1 .highlight { color: var(--accent); }
+.hero p { font-size: 18px; color: var(--gray); max-width: 580px; line-height: 1.7; margin-bottom: 36px; }
+.hero-links { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; transition: all 0.2s; border: none; cursor: pointer; font-family: var(--font); }
+.btn-primary { background: var(--accent); color: white; }
+.btn-primary:hover { background: #2563EB; color: white; transform: translateY(-1px); }
+.btn-outline { background: transparent; border: 1px solid var(--border); color: var(--gray); }
+.btn-outline:hover { border-color: var(--accent); color: var(--white); }
+
+/* STATS */
+.stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin: 80px 0; }
+.stat { background: var(--bg-card); padding: 32px 24px; text-align: center; }
+.stat .number { font-size: 36px; font-weight: 800; color: var(--white); letter-spacing: -1px; font-family: var(--mono); }
+.stat .label { font-size: 13px; color: var(--gray-dim); margin-top: 4px; font-weight: 500; }
+@media(max-width:640px){ .stats{grid-template-columns:repeat(2,1fr);} }
+
+/* SECTIONS */
+section { padding: 80px 0; }
+.section-label { font-family: var(--mono); font-size: 13px; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+.section-title { font-size: clamp(28px,4vw,40px); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+.section-desc { font-size: 16px; color: var(--gray); max-width: 600px; margin-bottom: 48px; }
+
+/* ── CASE STUDIES ──────────────────── */
+.case-study {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 32px;
+  transition: border-color 0.3s;
+}
+.case-study:hover { border-color: rgba(255,255,255,0.1); }
+
+.case-header {
+  padding: 36px 40px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.case-header-left { flex: 1; min-width: 280px; }
+.case-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-family: var(--mono);
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.case-tag.rag { background: var(--accent-glow); color: var(--accent-soft); }
+.case-tag.health { background: var(--green-glow); color: var(--green); }
+.case-tag.auto { background: var(--orange-glow); color: var(--orange); }
+.case-tag.ml { background: var(--purple-glow); color: var(--purple); }
+.case-tag.fin { background: var(--red-glow); color: var(--red); }
+.case-tag.oss { background: var(--cyan-glow); color: var(--cyan); }
+
+.case-header h3 {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+}
+.case-client {
+  font-size: 14px;
+  color: var(--gray-dim);
+  margin-bottom: 12px;
+}
+
+.case-metrics {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.case-metric {
+  text-align: center;
+  min-width: 90px;
+}
+.case-metric .val {
+  font-family: var(--mono);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+.case-metric .val.blue { color: var(--accent-soft); }
+.case-metric .val.green { color: var(--green); }
+.case-metric .val.orange { color: var(--orange); }
+.case-metric .val.purple { color: var(--purple); }
+.case-metric .lbl {
+  font-size: 11px;
+  color: var(--gray-dim);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.case-body {
+  padding: 28px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 28px;
+}
+.case-block h5 {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+}
+.case-block p {
+  font-size: 14px;
+  color: var(--gray);
+  line-height: 1.75;
+}
+
+.case-arch {
+  padding: 0 40px 28px;
+}
+.case-arch h5 {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 14px;
+}
+.arch-flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 20px 24px;
+  background: var(--bg);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.arch-node {
+  padding: 8px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--gray);
+  white-space: nowrap;
+}
+.arch-node.highlight-node {
+  border-color: var(--accent);
+  color: var(--accent-soft);
+  background: var(--accent-glow);
+}
+.arch-arrow {
+  color: var(--gray-dim);
+  font-size: 14px;
+}
+
+.case-tech {
+  padding: 0 40px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.case-tech span {
+  font-size: 11px;
+  padding: 4px 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--gray-dim);
+  font-family: var(--mono);
+}
+
+@media(max-width:768px){
+  .case-header { padding: 24px 20px 0; }
+  .case-body { grid-template-columns: 1fr; padding: 20px 20px; gap: 20px; }
+  .case-arch { padding: 0 20px 20px; }
+  .case-tech { padding: 0 20px 24px; }
+  .arch-flow { flex-direction: column; align-items: flex-start; }
+}
+
+/* ── SKILLS ──────────────────────────── */
+.skills-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.skill-group { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
+.skill-group h4 { font-size: 14px; font-weight: 600; color: var(--accent-soft); margin-bottom: 14px; font-family: var(--mono); }
+.skill-group p { font-size: 14px; color: var(--gray); line-height: 1.8; }
+@media(max-width:768px){ .skills-grid{grid-template-columns:1fr;} }
+
+/* ── EXPERIENCE ──────────────────────── */
+.timeline { display: flex; flex-direction: column; }
+.timeline-item { display: grid; grid-template-columns: 200px 1fr; gap: 32px; padding: 28px 0; border-bottom: 1px solid var(--border); }
+.timeline-item:last-child { border-bottom: none; }
+.timeline-date { font-family: var(--mono); font-size: 13px; color: var(--gray-dim); padding-top: 4px; }
+.timeline-content h4 { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+.timeline-content .company { font-size: 14px; color: var(--accent-soft); margin-bottom: 8px; }
+.timeline-content p { font-size: 14px; color: var(--gray); line-height: 1.7; }
+@media(max-width:640px){ .timeline-item{grid-template-columns:1fr;gap:4px;} }
+
+/* ── EDUCATION ────────────────────────── */
+.edu-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; }
+.edu-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
+.edu-card h4 { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+.edu-card .school { font-size: 14px; color: var(--accent-soft); margin-bottom: 4px; }
+.edu-card .year { font-size: 13px; color: var(--gray-dim); font-family: var(--mono); }
+@media(max-width:640px){ .edu-grid{grid-template-columns:1fr;} }
+
+/* ── CONTACT ─────────────────────────── */
+.contact-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 48px; text-align: center; }
+.contact-box h3 { font-size: 28px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.5px; }
+.contact-box p { font-size: 16px; color: var(--gray); margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto; }
+.contact-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+/* ── PUBLICATIONS ─────────────────────── */
+.pub-list { display: flex; flex-direction: column; gap: 12px; }
+.pub-card {
+  display: flex; align-items: center; gap: 20px;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 24px 28px; transition: all 0.3s; text-decoration: none;
+}
+.pub-card:hover { border-color: var(--accent); background: var(--bg-card-hover); transform: translateX(4px); }
+.pub-icon {
+  font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--accent);
+  min-width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+  background: var(--accent-glow); border-radius: 8px; flex-shrink: 0;
+}
+.pub-content { flex: 1; }
+.pub-content h4 { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 4px; line-height: 1.4; }
+.pub-journal { font-size: 13px; color: var(--gray-dim); font-style: italic; }
+.pub-arrow { font-size: 18px; color: var(--gray-dim); transition: color 0.2s; flex-shrink: 0; }
+.pub-card:hover .pub-arrow { color: var(--accent); }
+@media(max-width:640px){ .pub-card { padding: 18px 16px; gap: 14px; } .pub-content h4 { font-size: 14px; } }
+
+/* ── CERTIFICATIONS ──────────────────── */
+.cert-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.cert-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 20px; transition: all 0.2s;
+}
+.cert-card:hover { border-color: rgba(255,255,255,0.1); }
+.cert-card.featured { border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.05); }
+.cert-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 10px; font-family: var(--mono); font-weight: 600;
+  background: rgba(255,255,255,0.06); color: var(--gray-dim);
+  margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;
+}
+.cert-card.featured .cert-badge { background: var(--accent-glow); color: var(--accent-soft); }
+.cert-card h4 { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 4px; line-height: 1.4; }
+.cert-card p { font-size: 12px; color: var(--gray-dim); font-family: var(--mono); }
+@media(max-width:768px){ .cert-grid { grid-template-columns: repeat(2, 1fr); } }
+@media(max-width:480px){ .cert-grid { grid-template-columns: 1fr; } }
+
+footer { padding: 40px 0; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--gray-dim); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="logo">talha<span>.ai</span></div>
+    <ul>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#publications">Research</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge"><span class="dot"></span> Available for work</div>
+      <h1>I build <span class="highlight">AI systems</span> that ship to production.</h1>
+      <p>Full-Stack AI Engineer with 3+ years building RAG pipelines, multi-agent systems, LLM integrations, and scalable web applications for clients in healthcare, biotech, and fintech.</p>
+      <div class="hero-links">
+        <a href="mailto:talhasarfraz29@gmail.com" class="btn btn-primary">Get in touch</a>
+        <a href="https://github.com/talha-11-11" target="_blank" class="btn btn-outline">GitHub</a>
+        <a href="https://linkedin.com/in/talhasarfraz" target="_blank" class="btn btn-outline">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="container">
+  <div class="stats">
+    <div class="stat"><div class="number">3+</div><div class="label">Years Experience</div></div>
+    <div class="stat"><div class="number">85%</div><div class="label">RAG Retrieval Accuracy</div></div>
+    <div class="stat"><div class="number">300+</div><div class="label">AI Reports / Week</div></div>
+    <div class="stat"><div class="number">5.0</div><div class="label">Upwork Rating</div></div>
+  </div>
+</div>
+
+<!-- CASE STUDIES -->
+<section id="projects">
+  <div class="container">
+    <div class="section-label">// Case Studies</div>
+    <h2 class="section-title">Production AI Systems I Have Built</h2>
+    <p class="section-desc">Each project shipped to production, serving real users, generating real results.</p>
+
+    <!-- CASE 1: Phlow -->
+    <div class="case-study">
+      <div class="case-header">
+        <div class="case-header-left">
+          <span class="case-tag rag">RAG · Multi-Agent · LLM</span>
+          <h3>Phlow — Pharmaceutical Retrosynthesis LLM</h3>
+          <div class="case-client">PokitBio · Biotech · Remote</div>
+        </div>
+        <div class="case-metrics">
+          <div class="case-metric"><div class="val blue">85%+</div><div class="lbl">Retrieval Accuracy</div></div>
+          <div class="case-metric"><div class="val green">70%+</div><div class="lbl">Cache Hit Rate</div></div>
+          <div class="case-metric"><div class="val orange">4</div><div class="lbl">AI Agents</div></div>
+        </div>
+      </div>
+      <div class="case-body">
+        <div class="case-block">
+          <h5>The Problem</h5>
+          <p>Chemists needed to explore drug synthesis pathways from thousands of scientific papers. Generic GPT-4 hallucinated synthesis steps that don't exist — dangerous in pharmaceutical research.</p>
+        </div>
+        <div class="case-block">
+          <h5>What I Built</h5>
+          <p>Full production RAG pipeline with semantic chunking preserving chemical context, Qdrant vector DB with tuned similarity thresholds, re-ranking layer, and 4 intelligent agents (checklist, validation, safety, diagnostics).</p>
+        </div>
+        <div class="case-block">
+          <h5>The Impact</h5>
+          <p>85%+ retrieval accuracy on domain-specific chemistry queries. Near-zero hallucination. Every answer traceable to source documents. Multiple research teams running concurrently with full data isolation.</p>
+        </div>
+      </div>
+      <div class="case-arch">
+        <h5>Architecture</h5>
+        <div class="arch-flow">
+          <span class="arch-node">User Query</span>
+          <span class="arch-arrow">→</span>
+          <span class="arch-node highlight-node">Semantic Chunker</span>
+          <span class="arch-arrow">→</span>
+          <span class="arch-node">Qdrant Vector DB</span>
+          <span class="arch-arrow">→</span>
+          <span class="arch-node highlight-node">Re-ranking Layer</span>
+          <span class="arch-arrow">→</span>
+          <span class="arch-node">4 AI Agents</span>
+          <span class="arch-arrow">→</span>
+          <span class="arch-node highlight-node">Grounded Response</span>
+        </div>
+      </div>
+      <div class="case-tech">
+        <span>LangChain</span><span>Qdrant</span><span>Haystack</span><span>FastAPI</span><span>Next.js</span><span>OpenAI</span><span>Redis</span><span>Docker</span><span>Prometheus</span><span>OpenTelemetry</span><span>JWT</span><span>WebSockets</span>
+      </div>
+    </div>
+
+    <!-- CASE 2: Skygenic -->
+    <div class="case-study">
+      <div class="case-header">
+        <div class="case-header-left">
+          <span class="case-tag health">Healthcare · RAG · Bioinformatics</span>
+          <h3>Skygenic — Healthcare RAG Chatbot</h3>
+          <div class="case-client">Skygenic · USA · Bioinformatics</div>
+        </div>
+        <div class="case-metrics">
+          <div class="case-metric"><div class="val green">2</div><div class="lbl">Data Sources</div></div>
+          <div class="case-metric"><div class="val blue">NCBI</div><div class="lbl">Integrated</div></div>
+        </div>
+      </div>
+      <div class="case-body">
+        <div class="case-block">
+          <h5>The Problem</h5>
+          <p>Users needed to ask complex healthcare and bioinformatics questions and get accurate answers grounded in both the company's internal knowledge base and NCBI — one of the world's largest biomedical databases.</p>
+        </div>
+        <div class="case-block">
+          <h5>What I Built</h5>
+          <p>A RAG pipeline that retrieves from two sources simultaneously, merges context intelligently, and delivers grounded answers. Integrated Nextflow bioinformatics pipeline guidance into the chatbot for complex workflow navigation.</p>
+        </div>
+        <div class="case-block">
+          <h5>The Impact</h5>
+          <p>Made complex bioinformatics tools accessible to non-technical users through a simple conversational interface. Users can now query NCBI data and get Nextflow pipeline guidance without needing domain expertise.</p>
+        </div>
+      </div>
+      <div class="case-arch">
+        <h5>Architecture</h5>
+        <div class="arch-flow">
+          <span class="arch-node">User Query</span>
+          <span class="arch-arrow">→</span>
+          <span class="arch-node highlight-node">Intent Router</span>
+          <span class="arch-arrow">→</span>
+          <span class="arch-node">Internal KB</span>
+          <span class="arch-arrow">+</span>
+          <span class="arch-node">NCBI Database</span>
+          <span class="arch-arrow">→</span>
+          <span class="arch-node highlight-node">Context Merger</span>
+          <span class="arch-arrow">→</span>
+          <span class="arch-node">Grounded Answer</span>
+        </div>
+      </div>
+      <div class="case-tech">
+        <span>RAG</span><span>NCBI API</span><span>Nextflow</span><span>FastAPI</span><span>Python</span><span>LangChain</span><span>PostgreSQL</span>
+      </div>
+    </div>
+
+    <!-- CASE 3: SA Footballer -->
+    <div class="case-study">
+      <div class="case-header">
+        <div class="case-header-left">
+          <span class="case-tag auto">AI Automation · Full Stack</span>
+          <h3>SA Footballer — AI Content Automation Platform</h3>
+          <div class="case-client">The South Australian Footballer · Australia</div>
+        </div>
+        <div class="case-metrics">
+          <div class="case-metric"><div class="val orange">300+</div><div class="lbl">Reports / Week</div></div>
+          <div class="case-metric"><div class="val green">0</div><div class="lbl">Human Intervention</div></div>
+          <div class="case-metric"><div class="val blue">5</div><div class="lbl">Apps Built</div></div>
+        </div>
+      </div>
+      <div class="case-body">
+        <div class="case-block">
+          <h5>The Problem</h5>
+          <p>A football magazine had writers manually producing hundreds of match reports every week. Slow, expensive, and limiting — they couldn't cover all the matches they wanted to.</p>
+        </div>
+        <div class="case-block">
+          <h5>What I Built</h5>
+          <p>A fully automated AI pipeline using OpenAI that generates match reports, publishes them via cron jobs, and sends emails/magazines to clients via an AI-powered CRM dashboard. Also redesigned and rebuilt the entire website.</p>
+        </div>
+        <div class="case-block">
+          <h5>The Impact</h5>
+          <p>300+ match reports published weekly with zero manual effort. Faster than any competitor. The team now focuses on editorial and high-value journalism while AI handles the volume.</p>
+        </div>
+      </div>
+      <div class="case-arch">
+        <h5>Architecture</h5>
+        <div class="arch-flow">
+          <span class="arch-node">Match Data</span>
+          <span class="arch-arrow">→</span>
+          <span class="arch-node highlight-node">OpenAI Report Gen</span>
+          <span class="arch-arrow">→</span>
+          <span class="arch-node">Sanity CMS</span>
+          <span class="arch-arrow">→</span>
+          <span class="arch-node highlight-node">Cron Publisher</span>
+          <span class="arch-arrow">→</span>
+          <span class="arch-node">Website + CRM Emails</span>
+        </div>
+      </div>
+      <div class="case-tech">
+        <span>OpenAI</span><span>Next.js</span><span>JavaScript</span><span>Sanity CMS</span><span>Render</span><span>Vercel</span><span>Cron Jobs</span><span>Email API</span>
+      </div>
+    </div>
+
+    <!-- CASE 4: Ejection Fraction -->
+    <div class="case-study">
+      <div class="case-header">
+        <div class="case-header-left">
+          <span class="case-tag ml">Clinical ML · Healthcare</span>
+          <h3>Cardiac Ejection Fraction Prediction</h3>
+          <div class="case-client">VST Inc. · USA · Remote</div>
+        </div>
+        <div class="case-metrics">
+          <div class="case-metric"><div class="val purple">97%</div><div class="lbl">Accuracy</div></div>
+          <div class="case-metric"><div class="val blue">1,600+</div><div class="lbl">Patient Records</div></div>
+        </div>
+      </div>
+      <div class="case-body">
+        <div class="case-block">
+          <h5>The Problem</h5>
+          <p>Predicting cardiac ejection fraction from echocardiogram data to support clinical decision-making. Manual assessment is time-consuming and subject to inter-observer variability.</p>
+        </div>
+        <div class="case-block">
+          <h5>What I Built</h5>
+          <p>An ML ensemble model trained on 1,600+ patient echocardiogram records. Built the full pipeline from data cleaning and feature engineering through model training, evaluation, and deployment.</p>
+        </div>
+        <div class="case-block">
+          <h5>The Impact</h5>
+          <p>97% prediction accuracy. Automated ETL pipelines reduced data processing time by 40%. The model supports faster, more consistent clinical assessments for US healthcare providers.</p>
+        </div>
+      </div>
+      <div class="case-tech">
+        <span>Python</span><span>Scikit-learn</span><span>XGBoost</span><span>Pandas</span><span>SHAP</span><span>SQL</span><span>Seaborn</span>
+      </div>
+    </div>
+
+    <!-- CASE 5: Credit Underwriting -->
+    <div class="case-study">
+      <div class="case-header">
+        <div class="case-header-left">
+          <span class="case-tag fin">Fintech · ML</span>
+          <h3>AI Credit Underwriting Model</h3>
+          <div class="case-client">Prixite · Pakistan · Fintech Client</div>
+        </div>
+        <div class="case-metrics">
+          <div class="case-metric"><div class="val green">+18%</div><div class="lbl">Accuracy Gain</div></div>
+          <div class="case-metric"><div class="val blue">10+</div><div class="lbl">ML Projects</div></div>
+        </div>
+      </div>
+      <div class="case-body">
+        <div class="case-block">
+          <h5>The Problem</h5>
+          <p>A fintech client's rule-based loan approval system was missing qualified applicants and approving risky ones. Needed a data-driven approach that could adapt to patterns human rules couldn't capture.</p>
+        </div>
+        <div class="case-block">
+          <h5>What I Built</h5>
+          <p>Replaced the rule-based system with an XGBoost + LightGBM ensemble. Built the full data pipeline, feature engineering layer, model training, and Power BI dashboards for the business team.</p>
+        </div>
+        <div class="case-block">
+          <h5>The Impact</h5>
+          <p>18% improvement in loan approval accuracy over the previous rule-based system. Business team got real-time visibility into approval patterns through interactive Power BI dashboards.</p>
+        </div>
+      </div>
+      <div class="case-tech">
+        <span>XGBoost</span><span>LightGBM</span><span>Scikit-learn</span><span>Python</span><span>SQL</span><span>Power BI</span><span>Pandas</span><span>SHAP</span>
+      </div>
+    </div>
+
+    <!-- CASE 6: dxplorer -->
+    <div class="case-study">
+      <div class="case-header">
+        <div class="case-header-left">
+          <span class="case-tag oss">Open Source · PyPI</span>
+          <h3>dxplorer — Data Quality Profiling Library</h3>
+          <div class="case-client">Open Source · Published on PyPI</div>
+        </div>
+        <div class="case-metrics">
+          <div class="case-metric"><div class="val blue">PyPI</div><div class="lbl">Published</div></div>
+          <div class="case-metric"><div class="val green">MIT</div><div class="lbl">License</div></div>
+        </div>
+      </div>
+      <div class="case-body">
+        <div class="case-block">
+          <h5>The Problem</h5>
+          <p>Data scientists spend significant time manually checking data quality before modeling. Existing tools are heavyweight and don't suggest what to do about the problems they find.</p>
+        </div>
+        <div class="case-block">
+          <h5>What I Built</h5>
+          <p>A Python library that automates data quality profiling with a single API call — missing value analysis, distribution visualization, and AI-driven imputation suggestions. Full test coverage and contribution guidelines.</p>
+        </div>
+        <div class="case-block">
+          <h5>The Impact</h5>
+          <p>Published on PyPI (pip install dxplorer). Reduces data quality assessment from hours to minutes. Community-ready with Code of Conduct and Contributing guidelines on GitHub.</p>
+        </div>
+      </div>
+      <div class="case-tech">
+        <span>Python</span><span>Pandas</span><span>Seaborn</span><span>Markdown</span><span>PyPI</span><span>pytest</span><span>GitHub Actions</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label">// Tech Stack</div>
+    <h2 class="section-title">What I Work With</h2>
+    <p class="section-desc">Production-tested tools across AI/ML, backend, frontend, and cloud.</p>
+    <div class="skills-grid">
+      <div class="skill-group"><h4>AI / ML</h4><p>TensorFlow, PyTorch, Scikit-learn, XGBoost, LightGBM, Hugging Face, OpenCV, YOLO, SHAP</p></div>
+      <div class="skill-group"><h4>LLM / GenAI</h4><p>OpenAI API, Claude, LangChain, LangGraph, LlamaIndex, Haystack, RAG, LoRA / QLoRA, Ollama</p></div>
+      <div class="skill-group"><h4>Backend</h4><p>Python, FastAPI, Flask, Django, Node.js, REST, WebSockets, JWT Auth, Redis, Celery</p></div>
+      <div class="skill-group"><h4>Frontend</h4><p>Next.js, React, TypeScript, JavaScript, HTML, CSS, Tailwind</p></div>
+      <div class="skill-group"><h4>Databases</h4><p>PostgreSQL, MongoDB, MySQL, Qdrant, pgvector, Supabase</p></div>
+      <div class="skill-group"><h4>Cloud / DevOps</h4><p>AWS SageMaker, Docker, Render, Vercel, Prometheus, OpenTelemetry, GitHub Actions</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="section-label">// Experience</div>
+    <h2 class="section-title">Where I Have Worked</h2>
+    <p class="section-desc">Production roles across healthcare, biotech, fintech, and media.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">2024 — Present</div>
+        <div class="timeline-content">
+          <h4>Full Stack AI Developer</h4>
+          <div class="company">SA Footballer · Australia (Remote)</div>
+          <p>Automated 300+ weekly match reports using OpenAI. Built AI CRM dashboard, cron-based publishing, and redesigned website with Next.js, Sanity CMS, Render, and Vercel.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2023 — Present</div>
+        <div class="timeline-content">
+          <h4>Full Stack AI Developer</h4>
+          <div class="company">PokitBio · Remote</div>
+          <p>Built Phlow retrosynthesis LLM tool, production RAG pipeline with 4 agents, 85%+ retrieval accuracy, Redis caching, Prometheus observability.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2023 — 2025</div>
+        <div class="timeline-content">
+          <h4>Data Scientist</h4>
+          <div class="company">Prixite · Pakistan</div>
+          <p>10+ ML projects. AI credit underwriting (+18% accuracy). Power BI dashboards and automated reporting for enterprise clients.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2023</div>
+        <div class="timeline-content">
+          <h4>AI Engineer — CV & NLP</h4>
+          <div class="company">Assistech Solutions · Pakistan</div>
+          <p>YOLO-based object detection. NLP pipelines with Hugging Face Transformers. Reduced inference latency by 35% via ONNX optimization.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2022 — 2023</div>
+        <div class="timeline-content">
+          <h4>Data Scientist</h4>
+          <div class="company">VST Inc. · USA (Remote)</div>
+          <p>Ejection fraction prediction (97% accuracy, 1,600+ patients). Automated ETL pipelines cutting processing time by 40%.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section>
+  <div class="container">
+    <div class="section-label">// Education</div>
+    <h2 class="section-title">Academic Background</h2>
+    <p class="section-desc"></p>
+    <div class="edu-grid">
+      <div class="edu-card"><h4>MS Bioinformatics</h4><div class="school">NUST Islamabad</div><div class="year">2020 — 2022</div></div>
+      <div class="edu-card"><h4>BS Bioinformatics</h4><div class="school">GCU Faisalabad · GPA: 3.69 / 4.0</div><div class="year">2016 — 2020</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="container">
+    <div class="section-label">// Publications</div>
+    <h2 class="section-title">Research & Publications</h2>
+    <p class="section-desc">Peer-reviewed research in AI, healthcare, cybersecurity, and IoT.</p>
+
+    <div class="pub-list">
+      <a href="https://fmhr.net/index.php/fmhr/article/view/1378" target="_blank" class="pub-card">
+        <div class="pub-icon">01</div>
+        <div class="pub-content">
+          <h4>AI in Liver Oncology: Advanced Image Processing and ML Models for Early Diagnosis and Prognostic Modeling of Primary Liver Cancers</h4>
+          <p class="pub-journal">Frontiers in Medical & Health Research</p>
+        </div>
+        <span class="pub-arrow">→</span>
+      </a>
+      <a href="https://thesesjournal.com/index.php/1/article/view/1171" target="_blank" class="pub-card">
+        <div class="pub-icon">02</div>
+        <div class="pub-content">
+          <h4>AI and Big Data–Enabled Architectures for Privacy-Preserving and Cybersecure Demand Response in Smart Grids</h4>
+          <p class="pub-journal">Theses Journal — Sustainable Energy Optimization</p>
+        </div>
+        <span class="pub-arrow">→</span>
+      </a>
+      <a href="https://thesesjournal.com/index.php/1/article/view/1145" target="_blank" class="pub-card">
+        <div class="pub-icon">03</div>
+        <div class="pub-content">
+          <h4>ML-Based Intrusion and Anomaly Detection Models for Securing IoT Networks Against Emerging Cyber Threats</h4>
+          <p class="pub-journal">Theses Journal — IoT Security</p>
+        </div>
+        <span class="pub-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="container">
+    <div class="section-label">// Certifications</div>
+    <h2 class="section-title">Professional Certifications</h2>
+    <p class="section-desc">20 certifications across AI, ML, Cloud, DevOps, and Development.</p>
+
+    <div class="cert-grid">
+      <div class="cert-card featured">
+        <div class="cert-badge">Google</div>
+        <h4>Introduction to Large Language Models</h4>
+        <p>Jul 2023</p>
+      </div>
+      <div class="cert-card featured">
+        <div class="cert-badge">AWS</div>
+        <h4>AWS SageMaker</h4>
+        <p>Jul 2023</p>
+      </div>
+      <div class="cert-card featured">
+        <div class="cert-badge">AWS</div>
+        <h4>Introduction to Machine Learning in AWS</h4>
+        <p>Apr 2023</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">DevOps</div>
+        <h4>Docker Orchestration</h4>
+        <p>Apr 2024</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">DevOps</div>
+        <h4>Docker Projects</h4>
+        <p>Apr 2023</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">Cloud</div>
+        <h4>Cloud Computing Architecture</h4>
+        <p>Jul 2023</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">ML</div>
+        <h4>ML Model Deployment Course</h4>
+        <p>Jul 2023</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">ML</div>
+        <h4>ML Model Deployment using Flask</h4>
+        <p>Apr 2023</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">ML</div>
+        <h4>Hierarchical Clustering</h4>
+        <p>Aug 2023</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">NLP</div>
+        <h4>Natural Language Processing Projects</h4>
+        <p>Apr 2023</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">NLP</div>
+        <h4>Machine Translation</h4>
+        <p>Jul 2023</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">CV</div>
+        <h4>Computer Vision Projects</h4>
+        <p>Apr 2023</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">Health</div>
+        <h4>AI in Healthcare</h4>
+        <p>Apr 2023</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">Data</div>
+        <h4>Data Visualization with Power BI</h4>
+        <p>Apr 2023</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">Data</div>
+        <h4>SQL for Data Science</h4>
+        <p>Apr 2023</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">Data</div>
+        <h4>Data Science Foundations</h4>
+        <p>Apr 2023</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">IoT</div>
+        <h4>AI and Big Data in IoT</h4>
+        <p>May 2023</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">AI</div>
+        <h4>Big Data and AI</h4>
+        <p>Apr 2023</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">Dev</div>
+        <h4>React JavaScript</h4>
+        <p>May 2023</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">Design</div>
+        <h4>Figma for UI/UX Design</h4>
+        <p>Oct 2025</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-box">
+      <h3>Let's build something together.</h3>
+      <p>Available for freelance projects, full-time roles, and research collaborations.</p>
+      <div class="contact-links">
+        <a href="mailto:talhasarfraz29@gmail.com" class="btn btn-primary">talhasarfraz29@gmail.com</a>
+        <a href="https://github.com/talha-11-11" target="_blank" class="btn btn-outline">GitHub</a>
+        <a href="https://linkedin.com/in/talhasarfraz" target="_blank" class="btn btn-outline">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer><div class="container"><p>Mian Talha Sarfraz · Full-Stack AI Engineer · 2026</p></div></footer>
+
+</body>
+</html>
